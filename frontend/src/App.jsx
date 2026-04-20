@@ -1,35 +1,61 @@
-import { useState } from 'react'
-import './App.css'
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Adduser from './register'
-import Home from './home'
-import Login from './login'
-import Profile from './profile'
-import Admin from './admin'
-import AddItems from './additem'
-import Shop from './shop'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/login";
+import Register from "./components/register";
+import AdminDashboard from "./components/AdminDashboard";
+import UserDashboard from "./components/UserDashBoard";
+import HomePage from "./components/HomePage";
+import AddProduct from "./components/AddProduct";
+import ProductsPage from "./components/ProductsPage";
+import CartPage from "./components/CartPage";
+import OtpPage from "./components/OtpPage";
+import EmailOtpPage from "./components/EmailOtpPage";
+import OtpVerifyPage from "./components/OtpVerifyPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PaymentSuccess from "./components/PaymentSuccess";
+import PaymentPage from "./components/PaymentPage"
+import OrdersPage from "./components/OrdersPage";
 
 function App() {
-
   return (
-    <>
-  <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/register' element={<Adduser/>}/>
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/home/:id' element={<Home/>}/>
-      <Route path='/profile/:id' element={<Profile/>}/>
-      <Route path='/admin/:id' element={<Admin/>}/>
-      <Route path='/Additem' element={<AddItems/>}/>
-      <Route path='/Shop' element={<Shop/>}/>
-      
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
+        {/* User Dashboard */}
+        <Route path="/user" element={<UserDashboard />} />
 
-    </Routes>
-  </BrowserRouter>
-    </>
-  )
+        {/* Protected Admin */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute roleRequired="admin">
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Product Related */}
+        <Route path="/addproduct" element={<AddProduct />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/cart" element={<CartPage />} />
+
+        {/* Orders */}
+        <Route path="/orders" element={<OrdersPage />} />
+
+        {/* OTP Flow */}
+        <Route path="/otp" element={<OtpPage />} />
+        <Route path="/register-email" element={<EmailOtpPage />} />
+        <Route path="/verify-otp" element={<OtpVerifyPage />} />
+
+        {/* Payment */}
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
